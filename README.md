@@ -33,7 +33,7 @@ Ikuti langkah-langkah berikut untuk meng-clone dan menginstal proyek ini di mesi
     Jalankan perintah berikut untuk menginstal semua dependensi PHP menggunakan Composer:
 
     ```bash
-    composer install
+    composer update
     
 4. **Salin File Konfigurasi .env**
 
