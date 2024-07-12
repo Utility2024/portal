@@ -1,4 +1,4 @@
-# Portal Laravel Filament
+# Web Portal
 
 Ini adalah proyek Portal yang dibangun menggunakan Laravel dan Filament.
 
