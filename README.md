@@ -1,52 +1,54 @@
-Portal Laravel Filament
+# Portal Laravel Filament
+
 Ini adalah proyek Portal yang dibangun menggunakan Laravel dan Filament.
 
-Persyaratan
+## Persyaratan
+
 Sebelum Anda mulai, pastikan sistem Anda memiliki persyaratan berikut:
 
-PHP >= 7.4
-Composer
-MySQL atau database lain yang didukung oleh Laravel
-Node.js dan NPM (opsional, jika Anda ingin menjalankan dan mengkompilasi aset front-end)
-Instalasi
+- PHP >= 7.4
+- Composer
+- MySQL atau database lain yang didukung oleh Laravel
+- Node.js dan NPM (opsional, jika Anda ingin menjalankan dan mengkompilasi aset front-end)
+
+## Instalasi
+
 Ikuti langkah-langkah berikut untuk meng-clone dan menginstal proyek ini di mesin lokal Anda.
 
-Clone Repository
+1. **Clone Repository**
 
-Clone repository ini ke mesin lokal Anda menggunakan perintah berikut:
+   Clone repository ini ke mesin lokal Anda menggunakan perintah berikut:
 
-bash
-Copy code
-git clone https://github.com/Utility2024/portal.git
-Masuk ke Direktori Proyek
+   ```bash
+   git clone https://github.com/Utility2024/portal.git
+2. **Masuk ke Direktori Proyek**
 
-Pindah ke direktori proyek yang baru saja Anda clone:
-
-bash
-Copy code
-cd portal
-Instal Dependensi
+    Pindah ke direktori proyek yang baru saja Anda clone:
+   
+    ```bash
+    cd portal
+    
+3. **Instal Dependensi**
 
 Jalankan perintah berikut untuk menginstal semua dependensi PHP menggunakan Composer:
 
-bash
-Copy code
-composer install
-Salin File Konfigurasi .env
+    ```bash
+    composer install
+    
+4. **Salin File Konfigurasi .env**
 
-Salin file .env.example menjadi .env:
+    Salin file .env.example menjadi .env:
 
-bash
-Copy code
-cp .env.example .env
-Generate Application Key
+    ```bash
+    cp .env.example .env
+    
+5. **Generate Application Key**
 
-Generate application key Laravel dengan perintah berikut:
+    Generate application key Laravel dengan perintah berikut:
 
-bash
-Copy code
-php artisan key:generate
-Konfigurasi Database
+    ```bash
+    php artisan key:generate
+    Konfigurasi Database
 
 Buka file .env dan atur konfigurasi database Anda. Sesuaikan DB_DATABASE, DB_USERNAME, dan DB_PASSWORD sesuai dengan konfigurasi database lokal Anda.
 
@@ -80,3 +82,4 @@ bash
 Copy code
 php artisan serve
 Aplikasi Anda sekarang dapat diakses di http://localhost:8000
+   
