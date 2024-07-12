@@ -6,10 +6,12 @@ Ini adalah proyek Portal yang dibangun menggunakan Laravel dan Filament.
 
 Sebelum Anda mulai, pastikan sistem Anda memiliki persyaratan berikut:
 
-- PHP >= 7.4
+- PHP >= 8.2
 - Composer
 - MySQL atau database lain yang didukung oleh Laravel
-- Node.js dan NPM (opsional, jika Anda ingin menjalankan dan mengkompilasi aset front-end)
+- Git
+- Laragon
+- Visual Studio Code / Aplikasi Text Editor Lain
 
 ## Instalasi
 
