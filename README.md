@@ -17,12 +17,30 @@ Sebelum Anda mulai, pastikan sistem Anda memiliki persyaratan berikut:
 
 Ikuti langkah-langkah berikut untuk meng-clone dan menginstal proyek ini di mesin lokal Anda.
 
+**Install PHP Version**
+
+    https://windows.php.net/download#php-8.3
+
+**Install Laragon**
+
+    https://laragon.org/download/
+
+**Install VS Code**
+
+    https://code.visualstudio.com/
+    
+**Install Git ( Untuk Push dan Pull Project Laravel )**
+
+    https://git-scm.com/downloads
+
+
 1. **Clone Repository**
 
-   Clone repository ini ke mesin lokal Anda menggunakan perintah berikut:
+   Clone repository ini ke mesin lokal Anda ke direktory ini C:\laragon\www menggunakan perintah berikut:
 
    ```bash
    git clone https://github.com/Utility2024/portal.git
+   
 2. **Masuk ke Direktori Proyek**
 
     Pindah ke direktori proyek yang baru saja Anda clone:
@@ -76,4 +94,25 @@ Ikuti langkah-langkah berikut untuk meng-clone dan menginstal proyek ini di mesi
     php artisan serve
     
     Aplikasi Anda sekarang dapat diakses di http://localhost:8000
+
+9. **Push And Pull ( Perubahan dan penambahan Fitur ) Dengan aplikasi git**
+
+   ```bash
+   git init
+
+9. **Push And Pull ( Perubahan dan penambahan Fitur ) Dengan aplikasi git**
+   
+   ```bash
+   git add .
+
+9. **Push And Pull ( Perubahan dan penambahan Fitur ) Dengan aplikasi git**
+
+   ```bash
+   git commit -m "Perubahan apa yang di ubah"
+
+10. **Untuk Upload perubahan ( Push ) dari lokal ke Github dan untuk Mendownload Perubahan dari Github ke Lokal ( Pull )** 
+
+   ```bash
+   git push -u origin main
+   git pull -u origin main
    
