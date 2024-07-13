@@ -16,17 +16,17 @@ use App\Http\Controllers\Auth\GoogleController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
 Route::middleware([PreventRequestsDuringMaintenance::class])->group(function () {
     Route::get('/', function () {
-        return view('welcome');
+        return view('landing');
     });
 });
 
 Route::group(['middleware' => 'redirect.if.not.installed'], function () {
     Route::get('/', function () {
-        return view('welcome');
+        return view('landing');
     });
 });

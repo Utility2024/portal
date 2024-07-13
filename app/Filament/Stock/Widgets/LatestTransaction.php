@@ -16,7 +16,8 @@ class LatestTransaction extends BaseWidget
         return $table
             ->query(Transaction::query()->latest('id')->limit(5))
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('id')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('date')
                     ->label('Date')
                     ->date(),
@@ -49,6 +50,6 @@ class LatestTransaction extends BaseWidget
                     ->label('PIC'),
                 Tables\Columns\TextColumn::make('keterangan')
                     ->label('Keterangan'),
-            ]);
+                ]);
     }
 }
