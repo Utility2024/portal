@@ -5,17 +5,21 @@ namespace App\Filament\Resources;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Glove;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\GloveDetail;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Collection;
 use Awcodes\Shout\Components\Shout;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\Filter;
 use Forms\Components\ToggleButtons;
+use Illuminate\Support\Facades\Blade;
 use Filament\Tables\Filters\Indicator;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
@@ -28,9 +32,6 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use App\Filament\Resources\GloveDetailResource\RelationManagers;
 use Tapp\FilamentAuditing\RelationManagers\AuditsRelationManager;
 use App\Filament\Resources\GloveDetailResource\Widgets\GloveDetailStatsOverview;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Blade;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class GloveDetailResource extends Resource
 {
@@ -52,15 +53,25 @@ class GloveDetailResource extends Resource
                 Card::make()
                     ->schema([
                     Forms\Components\Select::make('glove_id')
-                        ->relationship('glove', 'sap_code')
+                        ->label('SAP Code')
                         ->required()
-                        ->label('SAP CODE'),
-                    Forms\Components\Select::make('description')
-                        ->relationship('glove', 'description')
+                        ->relationship('glove', 'sap_code')
+                        ->searchable()
+                        ->reactive()
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            $Glove = Glove::find($state);
+                            if ($Glove) {
+                                $set('description', $Glove->description);
+                                $set('delivery', $Glove->delivery);
+                            } else {
+                                $set('description', null);
+                                $set('delivery', null);
+                            }
+                        }),
+                    Forms\Components\TextInput::make('description')
                         ->required()
                         ->label('Description'),
-                    Forms\Components\Select::make('delivery')
-                        ->relationship('glove', 'delivery')
+                    Forms\Components\TextInput::make('delivery')
                         ->required()
                         ->label('Delivery'),
                     ]),

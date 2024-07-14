@@ -12,16 +12,17 @@ use Forms\Components\TextArea;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
+use Filament\Tables\Filters\Filter;
 use Forms\Components\ToggleButtons;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Infolists\Components\Card as InfolistCard;
 use App\Filament\Stock\Resources\TransactionResource\Pages;
 use App\Filament\Stock\Resources\TransactionResource\RelationManagers;
-use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Filters\Filter;
 
 class TransactionResource extends Resource
 {
@@ -178,7 +179,8 @@ class TransactionResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->money('USD')
                     ->sortable()
-                    ->badge(),
+                    ->badge()
+                    ->summarize(Sum::make()->money('USD')),
                 Tables\Columns\TextColumn::make('transaction_type')
                     ->searchable()
                     ->badge()
@@ -196,7 +198,8 @@ class TransactionResource extends Resource
                 Tables\Columns\TextColumn::make('total_price')
                     ->money('USD')
                     ->sortable()
-                    ->badge(),
+                    ->badge()
+                    ->summarize(Sum::make()->money('USD')),
                 Tables\Columns\TextColumn::make('pic')
                     ->searchable()
                     ->label('PIC'),

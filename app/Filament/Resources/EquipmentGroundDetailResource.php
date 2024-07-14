@@ -8,15 +8,19 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Tables\Columns\IconColumn;
+use App\Models\EquipmentGround;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Collection;
 use Awcodes\Shout\Components\Shout;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\Filter;
 use Forms\Components\ToggleButtons;
 use App\Models\EquipmentGroundDetail;
+use Illuminate\Support\Facades\Blade;
 use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Forms\Components\DatePicker;
@@ -30,9 +34,6 @@ use App\Filament\Resources\EquipmentGroundDetailResource\Pages;
 use Tapp\FilamentAuditing\RelationManagers\AuditsRelationManager;
 use App\Filament\Resources\EquipmentGroundDetailResource\RelationManagers;
 use App\Filament\Resources\EquipmentGroundDetailResource\Widgets\EquipmentGroundDetailStatsOverview;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Blade;
 
 class EquipmentGroundDetailResource extends Resource
 {
@@ -54,17 +55,26 @@ class EquipmentGroundDetailResource extends Resource
                 Card::make()
                     ->schema([
                         Forms\Components\Select::make('equipment_ground_id')
-                            ->relationship('equipmentground', 'machine_name')
+                            ->label('Machine Name')
                             ->required()
-                            ->label('Register No')
-                            ->suffixIcon('heroicon-m-wrench-screwdriver'),
-                        Forms\Components\Select::make('area')
-                            ->relationship('equipmentground', 'area')
+                            ->relationship('equipmentGround', 'machine_name')
+                            ->searchable()
+                            ->reactive()
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                $EquipmentGround = EquipmentGround::find($state);
+                                if ($EquipmentGround) {
+                                    $set('area', $EquipmentGround->area);
+                                    $set('location', $EquipmentGround->location);
+                                } else {
+                                    $set('area', null);
+                                    $set('location', null);
+                                }
+                            }),
+                        Forms\Components\TextInput::make('area')
                             ->required()
                             ->label('Area')
                             ->suffixIcon('heroicon-m-arrow-left-start-on-rectangle'),
-                        Forms\Components\Select::make('location')
-                            ->relationship('equipmentground', 'location')
+                        Forms\Components\TextInput::make('location')
                             ->required()
                             ->label('Location')
                             ->suffixIcon('heroicon-m-globe-europe-africa'),

@@ -27,7 +27,7 @@ use Edwink\FilamentUserActivity\FilamentUserActivityPlugin;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
-class DccPanelProvider extends PanelProvider
+class AdministrationPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {

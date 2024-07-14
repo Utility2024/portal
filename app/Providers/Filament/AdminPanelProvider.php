@@ -79,7 +79,6 @@ class AdminPanelProvider extends PanelProvider
             ->path('esd')
             ->login()
             ->databaseNotifications()
-            ->registration()
             ->colors([
                 'primary' => Color::Blue,
             ])
@@ -117,13 +116,13 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
-                // FilamentShieldPlugin::make(),
-                // ActivitylogPlugin::make(),
-                // FilamentUserActivityPlugin::make(),
+                FilamentShieldPlugin::make(),
+                ActivitylogPlugin::make(),
+                //FilamentUserActivityPlugin::make(),
                 new LocalLogins(),
                 ThemesPlugin::make(),
-                // FilamentClearCachePlugin::make(),
-                // ApprovalPlugin::make(),
+                FilamentClearCachePlugin::make(),
+                ApprovalPlugin::make(),
                 SpotlightPlugin::make(),
                 FilamentApexChartsPlugin::make()
             ])

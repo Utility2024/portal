@@ -170,7 +170,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\Filament\UtilityPanelProvider::class,
-        App\Providers\Filament\DccPanelProvider::class,
+        App\Providers\Filament\AdministrationPanelProvider::class,
         App\Providers\Filament\StockPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
         OwenIt\Auditing\AuditingServiceProvider::class,

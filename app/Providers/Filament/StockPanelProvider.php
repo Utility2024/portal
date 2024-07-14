@@ -74,7 +74,8 @@ class StockPanelProvider extends PanelProvider
             ->plugins([
                 ThemesPlugin::make(),
                 new LocalLogins(),
-                FilamentApexChartsPlugin::make()
+                FilamentApexChartsPlugin::make(),
+                FilamentShieldPlugin::make(),
             ]);
     }
 }

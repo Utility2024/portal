@@ -5,16 +5,20 @@ namespace App\Filament\Resources;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Flooring;
 use Filament\Tables\Table;
 use App\Models\FlooringDetail;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Collection;
 use Awcodes\Shout\Components\Shout;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\Blade;
 use Filament\Tables\Filters\Indicator;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
@@ -32,9 +36,6 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Tapp\FilamentAuditing\RelationManagers\AuditsRelationManager;
 use App\Filament\Resources\FlooringDetailResource\RelationManagers;
 use App\Filament\Resources\FlooringDetailResource\Widgets\FlooringDetailStatsOverview;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Blade;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class FlooringDetailResource extends Resource
 {
@@ -55,15 +56,26 @@ class FlooringDetailResource extends Resource
             ->schema([
                 Card::make([
                     Select::make('flooring_id')
-                        ->relationship('flooring', 'register_no')
+                        ->label('Register No')
                         ->required()
-                        ->label('Register No'),
-                    Select::make('area')
-                        ->relationship('flooring', 'area')
+                        ->relationship('flooring', 'register_no')
+                        ->searchable()
+                        ->reactive()
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            $Flooring = Flooring::find($state);
+                            if ($Flooring) {
+                                $set('area', $Flooring->area);
+                                $set('location', $Flooring->location);
+                            } else {
+                                $set('area', null);
+                                $set('location', null);
+                            }
+                        }),
+                    TextInput::make('area')
                         ->required()
                         ->label('Area'),
-                    Select::make('location')
-                        ->relationship('flooring', 'location')
+                    TextInput::make('location')
+                        ->label('Location')
                         ->required(),
                     ]),
                 Card::make()
@@ -215,6 +227,7 @@ class FlooringDetailResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                     Tables\Actions\BulkAction::make('Export Pdf')

@@ -5,16 +5,20 @@ namespace App\Filament\Resources;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Garment;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\GarmentDetail;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Collection;
 use Awcodes\Shout\Components\Shout;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\Filter;
+use Illuminate\Support\Facades\Blade;
 use Filament\Tables\Filters\Indicator;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
@@ -27,9 +31,6 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Tapp\FilamentAuditing\RelationManagers\AuditsRelationManager;
 use App\Filament\Resources\GarmentDetailResource\RelationManagers;
 use App\Filament\Resources\GarmentDetailResource\Widgets\GarmentDetailStatsOverview;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Blade;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class GarmentDetailResource extends Resource
 {
@@ -51,11 +52,20 @@ class GarmentDetailResource extends Resource
                 Card::make()
                     ->schema([
                         Forms\Components\Select::make('garment_id')
-                            ->relationship('garment', 'nik')
+                            ->label('NIK')
                             ->required()
-                            ->label('NIK'),
-                        Forms\Components\Select::make('name')
-                            ->relationship('garment', 'name')
+                            ->relationship('garment', 'nik')
+                            ->searchable()
+                            ->reactive()
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                $Garment = Garment::find($state);
+                                if ($Garment) {
+                                    $set('name', $Garment->name);
+                                } else {
+                                    $set('name', null);
+                                }
+                            }),
+                        Forms\Components\TextInput::make('name')
                             ->required()
                             ->label('Name'),
                     ]),

@@ -11,15 +11,17 @@ use Forms\Components\Hidden;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
+use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Infolists\Components\Card as InfolistCard;
 use App\Filament\Stock\Resources\MaterialResource\Pages;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use App\Filament\Stock\Resources\MaterialResource\RelationManagers;
 use App\Filament\Stock\Resources\MaterialResource\RelationManagers\TransactionRelationManager;
-use Filament\Resources\Components\Tab;
+use Filament\Tables\Columns\Summarizers\Sum;
 
 class MaterialResource extends Resource
 {
@@ -197,11 +199,13 @@ class MaterialResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->money('USD')
                     ->sortable()
-                    ->badge(),
+                    ->badge()
+                    ->summarize(Sum::make()->money('USD')),
                 Tables\Columns\TextColumn::make('total_price')
                     ->money('USD')
                     ->sortable()
-                    ->badge(),
+                    ->badge()
+                    ->summarize(Sum::make()->money('USD')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
