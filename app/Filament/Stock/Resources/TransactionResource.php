@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use Forms\Components\TextArea;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\DB;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Filters\Filter;
 use Forms\Components\ToggleButtons;
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Stock\Widgets\HTotalExpensesandIncome;
 use Filament\Infolists\Components\Card as InfolistCard;
 use App\Filament\Stock\Resources\TransactionResource\Pages;
 use App\Filament\Stock\Resources\TransactionResource\RelationManagers;
@@ -122,9 +124,6 @@ class TransactionResource extends Resource
                             'Indirect Material' => 'warning',
                             'Spare Part' => 'success',
                         }),
-                    TextEntry::make('price')
-                        ->money('USD')
-                        ->badge(),
                     TextEntry::make('transaction_type')
                         ->badge()
                         ->color(fn (string $state): string => match ($state) {
@@ -140,6 +139,15 @@ class TransactionResource extends Resource
                     TextEntry::make('date')
                         ->date(),
                     TextEntry::make('qty'),
+                    TextEntry::make('price')
+                        ->money('USD')
+                        ->badge(),
+                    TextEntry::make('total_price_in')
+                        ->money('USD')
+                        ->badge(),
+                    TextEntry::make('total_price_out')
+                        ->money('USD')
+                        ->badge(),
                     TextEntry::make('total_price')
                         ->money('USD')
                         ->badge(),
@@ -176,11 +184,6 @@ class TransactionResource extends Resource
                         'Indirect Material' => 'warning',
                         'Office Supply' => 'success',
                     }),
-                Tables\Columns\TextColumn::make('price')
-                    ->money('USD')
-                    ->sortable()
-                    ->badge()
-                    ->summarize(Sum::make()->money('USD')),
                 Tables\Columns\TextColumn::make('transaction_type')
                     ->searchable()
                     ->badge()
@@ -195,6 +198,21 @@ class TransactionResource extends Resource
                 Tables\Columns\TextColumn::make('qty')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('price')
+                    ->money('USD')
+                    ->sortable()
+                    ->badge()
+                    ->summarize(Sum::make()->money('USD')),
+                Tables\Columns\TextColumn::make('total_price_in')
+                    ->money('USD')
+                    ->sortable()
+                    ->badge()
+                    ->summarize(Sum::make()->money('USD')),
+                Tables\Columns\TextColumn::make('total_price_out')
+                    ->money('USD')
+                    ->sortable()
+                    ->badge()
+                    ->summarize(Sum::make()->money('USD')),
                 Tables\Columns\TextColumn::make('total_price')
                     ->money('USD')
                     ->sortable()
@@ -304,6 +322,43 @@ class TransactionResource extends Resource
         return $chartData;
     }
 
+    public static function getDataForYearlyChart($year): array
+    {
+        $data = Transaction::selectRaw('DATE_FORMAT(date, "%m") as month, transaction_type, SUM(qty) as total_qty, SUM(total_price) as total_price')
+            ->whereYear('date', $year)
+            ->groupBy('month', 'transaction_type')
+            ->orderBy('month')
+            ->get();
+
+        $months = [
+            '01' => 'January', '02' => 'February', '03' => 'March', '04' => 'April',
+            '05' => 'May', '06' => 'June', '07' => 'July', '08' => 'August',
+            '09' => 'September', '10' => 'October', '11' => 'November', '12' => 'December'
+        ];
+
+        $chartData = [
+            'months' => array_values($months),
+            'in' => array_fill(0, 12, 0),
+            'out' => array_fill(0, 12, 0),
+            'total_price' => array_fill(0, 12, 0),
+        ];
+
+        foreach ($data as $row) {
+            $index = (int)$row->month - 1;
+
+            if ($row->transaction_type == 'IN') {
+                $chartData['in'][$index] = $row->total_qty;
+            } else {
+                $chartData['out'][$index] = $row->total_qty;
+            }
+
+            $chartData['total_price'][$index] += $row->total_price;
+        }
+
+        return $chartData;
+    }
+
+    
     public static function getDataForUserChart(): array
     {
         $data = Transaction::selectRaw('pic, transaction_type, SUM(qty) as total')
@@ -341,4 +396,54 @@ class TransactionResource extends Resource
     {
         return Transaction::latest()->limit($limit)->get();
     }
+
+    public static function getTransactionDataForChart(): array
+    {
+        $data = Transaction::selectRaw('DATE(date) as date, SUM(price * qty) as total_price')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        $chartData = [
+            'dates' => [],
+            'data' => [],
+        ];
+
+        foreach ($data as $row) {
+            $chartData['dates'][] = $row->date;
+            $chartData['data'][] = [
+                'x' => $row->date,
+                'y' => $row->total_price,
+            ];
+        }
+
+        return $chartData;
+    }
+
+    public static function HTotalExpensesandIncome()
+    {
+        $data = Transaction::selectRaw('transaction_type, SUM(price * qty) as total_price')
+            ->groupBy('transaction_type')
+            ->get();
+    
+        $total_expenses = 0;
+        $total_income = 0;
+    
+        foreach ($data as $row) {
+            if ($row->transaction_type == 'OUT') {
+                $total_expenses += $row->total_price;
+            } elseif ($row->transaction_type == 'IN') {
+                $total_income += $row->total_price;
+            }
+        }
+    
+        return [
+            'total_price_in' => $total_income,
+            'total_price_out' => $total_expenses,
+            'dates' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // Replace with actual dates
+        ];
+    }
+
+
+
 }

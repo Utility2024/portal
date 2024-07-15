@@ -55,6 +55,9 @@ class AUserTransaction extends ApexChartWidget
                         'fontFamily' => 'inherit',
                     ],
                 ],
+                'title' => [
+                    'text' => 'Jumlah'
+                ],
             ],
             'yaxis' => [
                 'labels' => [

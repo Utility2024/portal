@@ -63,6 +63,9 @@ class Graph extends ApexChartWidget
                         'fontFamily' => 'inherit',
                     ],
                 ],
+                'title' => [
+                    'text' => 'Jumlah'
+                ],
             ],
         ];
     }

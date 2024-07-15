@@ -12,16 +12,17 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Filament\Resources\Components\Tab;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Infolists\Components\Card as InfolistCard;
 use App\Filament\Stock\Resources\MaterialResource\Pages;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use App\Filament\Stock\Resources\MaterialResource\RelationManagers;
 use App\Filament\Stock\Resources\MaterialResource\RelationManagers\TransactionRelationManager;
-use Filament\Tables\Columns\Summarizers\Sum;
 
 class MaterialResource extends Resource
 {
@@ -35,13 +36,13 @@ class MaterialResource extends Resource
             ->schema([
                 Card::make()
                     ->schema([
-                        Forms\Components\TextInput::make('sap_code')
+                        TextInput::make('sap_code')
                             ->required()
                             ->label('SAP Code'),
-                        Forms\Components\TextInput::make('description')
+                        TextInput::make('description')
                             ->required()
                             ->label('Description'),
-                        Forms\Components\ToggleButtons::make('type')
+                        ToggleButtons::make('type')
                             ->options([
                                 'Spare Part' => 'Spare Part',
                                 'Indirect Material' => 'Indirect Material',
@@ -58,10 +59,15 @@ class MaterialResource extends Resource
                                 'Office Supply' => 'success',
                             ])
                             ->inline(),
-                        Forms\Components\TextInput::make('qty_first')
+                        TextInput::make('qty_first')
                             ->numeric()
                             ->required()
-                            ->label('Quantity First'),
+                            ->label('Quantity First')
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                $price = $get('price');
+                                $set('total_price', $price * $state);
+                            }),
                         Forms\Components\Hidden::make('in')
                             ->label('In')
                             ->nullable(),
@@ -70,37 +76,29 @@ class MaterialResource extends Resource
                             ->nullable(),
                         Forms\Components\Hidden::make('last_stock')
                             ->label('Last Stock')
-                            ->nullable()
-                            ->reactive()
-                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                $price = $get('price');
-                                $set('total_price', $price * $state);
-                            }),
-                        Forms\Components\TextInput::make('minimum_stock')
+                            ->nullable(),
+                        TextInput::make('minimum_stock')
                             ->numeric()
                             ->required()
                             ->label('Minimum Stock'),
-                        Forms\Components\TextInput::make('unit')
+                        TextInput::make('unit')
                             ->required()
                             ->label('Unit'),
-                        Forms\Components\Textarea::make('information')
-                            ->required()
-                            ->label('Information'),
-                        Forms\Components\TextInput::make('price')
+                        TextInput::make('price')
                             ->numeric()
                             ->label('Price')
                             ->prefix('$')
                             ->maxValue(42949672.95)
                             ->reactive()
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                $lastStock = $get('last_stock');
-                                $set('total_price', $state * $lastStock);
+                                $qty = $get('qty_first');
+                                $set('total_price', $state * $qty);
                             }),
-                        Forms\Components\TextInput::make('total_price')
+                        TextInput::make('total_price')
                             ->numeric()
                             ->label('Total Price')
                             ->prefix('$')
-                            ->maxValue(42949672.95)
+                            ->maxValue(42949672.95),
                     ])->columns(2),
             ]);
     }
