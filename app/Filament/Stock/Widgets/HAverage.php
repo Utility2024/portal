@@ -44,16 +44,19 @@ class HAverage extends ApexChartWidget
                     'name' => 'In',
                     'type' => 'column',
                     'data' => $chartData['in'],
+                    'color' => '#10b981', // Warna hijau untuk 'In'
                 ],
                 [
                     'name' => 'Out',
                     'type' => 'column',
                     'data' => $chartData['out'],
+                    'color' => '#dc2626', // Warna merah untuk 'Out'
                 ],
                 [
                     'name' => 'Total Price',
                     'type' => 'line',
                     'data' => $chartData['total_price'],
+                    'color' => '#1e40af', // Warna biru untuk 'Total Price'
                 ],
             ],
             'chart' => [
@@ -66,6 +69,7 @@ class HAverage extends ApexChartWidget
             ],
             'stroke' => [
                 'width' => [1, 1, 4],
+                'curve' => 'smooth', // Mengubah garis menjadi tidak lancip
             ],
             'title' => [
                 'align' => 'left',
@@ -83,17 +87,17 @@ class HAverage extends ApexChartWidget
                     ],
                     'axisBorder' => [
                         'show' => true,
-                        'color' => '#34d399',
+                        'color' => '#10b981',
                     ],
                     'labels' => [
                         'style' => [
-                            'colors' => '#34d399',
+                            'colors' => '#10b981',
                         ],
                     ],
                     'title' => [
                         'text' => 'In (qty)',
                         'style' => [
-                            'color' => '#34d399',
+                            'color' => '#10b981',
                         ],
                     ],
                     'tooltip' => [
@@ -108,17 +112,17 @@ class HAverage extends ApexChartWidget
                     ],
                     'axisBorder' => [
                         'show' => true,
-                        'color' => '#f87171',
+                        'color' => '#dc2626',
                     ],
                     'labels' => [
                         'style' => [
-                            'colors' => '#f87171',
+                            'colors' => '#dc2626',
                         ],
                     ],
                     'title' => [
                         'text' => 'Out (qty)',
                         'style' => [
-                            'color' => '#f87171',
+                            'color' => '#dc2626',
                         ],
                     ],
                     'tooltip' => [
@@ -162,5 +166,4 @@ class HAverage extends ApexChartWidget
             ],
         ];
     }
-
 }

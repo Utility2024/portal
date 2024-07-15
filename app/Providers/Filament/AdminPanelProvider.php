@@ -6,6 +6,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use Filament\Pages\Auth\Login;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Hasnayeen\Themes\ThemesPlugin;
@@ -22,10 +23,10 @@ use App\Filament\Widgets\LatestMeasurement;
 use App\Filament\Widgets\UserStatsOverview;
 use Rmsramos\Activitylog\ActivitylogPlugin;
 use App\Filament\Widgets\AUserStatsOverview;
+use App\Filament\Widgets\CountDailyPatrol_1;
 use App\Filament\Widgets\DailyPatrolChart_2;
 use App\Filament\Widgets\DailyPatrolChart_3;
 use App\Filament\Widgets\DailyPatrolChart_4;
-use App\Filament\Widgets\CountDailyPatrol_1;
 use LaraZeus\DynamicDashboard\Models\Layout;
 use LaraZeus\DynamicDashboard\Models\Columns;
 use lockscreen\FilamentLockscreen\Lockscreen;
@@ -77,7 +78,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('esd')
             ->path('esd')
-            ->login()
+            ->login(Login::class)
             ->databaseNotifications()
             ->colors([
                 'primary' => Color::Blue,
@@ -116,13 +117,13 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
-                FilamentShieldPlugin::make(),
-                ActivitylogPlugin::make(),
+                // FilamentShieldPlugin::make(),
+                // ActivitylogPlugin::make(),
                 //FilamentUserActivityPlugin::make(),
                 new LocalLogins(),
                 ThemesPlugin::make(),
                 FilamentClearCachePlugin::make(),
-                ApprovalPlugin::make(),
+                // ApprovalPlugin::make(),
                 SpotlightPlugin::make(),
                 FilamentApexChartsPlugin::make()
             ])

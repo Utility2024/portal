@@ -15,15 +15,15 @@ class EquipmentGroundDetailPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_equipment::ground::detail');
+        return $user->isAdmin() || $user->isEditor() || $user->isUser();
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, EquipmentGroundDetail $equipmentGroundDetail): bool
+    public function view(User $user, EquipmentGroundDetail $EquipmentGroundDetail): bool
     {
-        return $user->can('view_equipment::ground::detail');
+        return $user->isAdmin() || $user->isEditor() || $user->isUser();
     }
 
     /**
@@ -31,23 +31,23 @@ class EquipmentGroundDetailPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_equipment::ground::detail');
+        return $user->isAdmin() || $user->isEditor();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, EquipmentGroundDetail $equipmentGroundDetail): bool
+    public function update(User $user, EquipmentGroundDetail $EquipmentGroundDetail): bool
     {
-        return $user->can('update_equipment::ground::detail');
+        return $user->isAdmin() || $user->isEditor();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, EquipmentGroundDetail $equipmentGroundDetail): bool
+    public function delete(User $user, EquipmentGroundDetail $EquipmentGroundDetail): bool
     {
-        return $user->can('delete_equipment::ground::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -55,15 +55,15 @@ class EquipmentGroundDetailPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_equipment::ground::detail');
+        return $user->isAdmin();
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, EquipmentGroundDetail $equipmentGroundDetail): bool
+    public function forceDelete(User $user, EquipmentGroundDetail $EquipmentGroundDetail): bool
     {
-        return $user->can('force_delete_equipment::ground::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -71,15 +71,15 @@ class EquipmentGroundDetailPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_equipment::ground::detail');
+        return $user->isAdmin();
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, EquipmentGroundDetail $equipmentGroundDetail): bool
+    public function restore(User $user, EquipmentGroundDetail $EquipmentGroundDetail): bool
     {
-        return $user->can('restore_equipment::ground::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -87,15 +87,15 @@ class EquipmentGroundDetailPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_equipment::ground::detail');
+        return $user->isAdmin();
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, EquipmentGroundDetail $equipmentGroundDetail): bool
+    public function replicate(User $user, EquipmentGroundDetail $EquipmentGroundDetail): bool
     {
-        return $user->can('replicate_equipment::ground::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -103,6 +103,6 @@ class EquipmentGroundDetailPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_equipment::ground::detail');
+        return $user->isAdmin();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Panel;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Storage;
@@ -19,9 +20,21 @@ use Edwink\FilamentUserActivity\Traits\UserActivityTrait;
 use BetterFuturesStudio\FilamentLocalLogins\Concerns\HasLocalLogins;
 use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 
-class User extends Authenticatable implements FilamentUser, HasAvatar, Auditable
+class User extends Authenticatable implements FilamentUser, Auditable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, HasPanelShield, UserActivityTrait, HasLocalLogins,\OwenIt\Auditing\Auditable;
+
+    const ROLE_ADMIN = 'ADMIN';
+
+    const ROLE_EDITOR = 'EDITOR';
+
+    const ROLE_USER = 'USER';
+
+    const ROLES = [
+        self::ROLE_ADMIN => 'Admin',
+        self::ROLE_EDITOR => 'Editor',
+        self::ROLE_USER => 'User',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -29,10 +42,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, Auditable
      * @var array<int, string>
      */
     protected $fillable = [
+        'nik',
         'name',
         'email',
         'password',
-        'avatar_url',
+        'role',
     ];
 
     /**
@@ -55,13 +69,23 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, Auditable
         'password' => 'hashed',
     ];
 
-    public function getFilamentAvatarUrl(): ?string
+
+    public function canAccessPanel(Panel $panel): bool
     {
-        return $this->avatar_url ? Storage::url("$this->avatar_url") : null;
+        return $this->isAdmin() || $this->isEditor() || $this->isUser();
     }
 
-    // public function canAccessPanel(Panel $panel): bool
-    // {
-    //     return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
-    // }
+    public function isAdmin(){
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isEditor(){
+        return $this->role === self::ROLE_EDITOR;
+    }
+
+    public function isUser(){
+        return $this->role === self::ROLE_USER;
+    }
+
+
 }

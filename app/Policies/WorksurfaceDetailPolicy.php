@@ -15,7 +15,7 @@ class WorksurfaceDetailPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_worksurface::detail');
+        return $user->isAdmin() || $user->isEditor() || $user->isUser();
     }
 
     /**
@@ -23,7 +23,7 @@ class WorksurfaceDetailPolicy
      */
     public function view(User $user, WorksurfaceDetail $worksurfaceDetail): bool
     {
-        return $user->can('view_worksurface::detail');
+        return $user->isAdmin() || $user->isEditor() || $user->isUser();
     }
 
     /**
@@ -31,7 +31,7 @@ class WorksurfaceDetailPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_worksurface::detail');
+        return $user->isAdmin() || $user->isEditor();
     }
 
     /**
@@ -39,7 +39,7 @@ class WorksurfaceDetailPolicy
      */
     public function update(User $user, WorksurfaceDetail $worksurfaceDetail): bool
     {
-        return $user->can('update_worksurface::detail');
+        return $user->isAdmin() || $user->isEditor();
     }
 
     /**
@@ -47,7 +47,7 @@ class WorksurfaceDetailPolicy
      */
     public function delete(User $user, WorksurfaceDetail $worksurfaceDetail): bool
     {
-        return $user->can('delete_worksurface::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -55,7 +55,7 @@ class WorksurfaceDetailPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_worksurface::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -63,7 +63,7 @@ class WorksurfaceDetailPolicy
      */
     public function forceDelete(User $user, WorksurfaceDetail $worksurfaceDetail): bool
     {
-        return $user->can('force_delete_worksurface::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -71,7 +71,7 @@ class WorksurfaceDetailPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_worksurface::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -79,7 +79,7 @@ class WorksurfaceDetailPolicy
      */
     public function restore(User $user, WorksurfaceDetail $worksurfaceDetail): bool
     {
-        return $user->can('restore_worksurface::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -87,7 +87,7 @@ class WorksurfaceDetailPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_worksurface::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -95,7 +95,7 @@ class WorksurfaceDetailPolicy
      */
     public function replicate(User $user, WorksurfaceDetail $worksurfaceDetail): bool
     {
-        return $user->can('replicate_worksurface::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -103,6 +103,6 @@ class WorksurfaceDetailPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_worksurface::detail');
+        return $user->isAdmin();
     }
 }

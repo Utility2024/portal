@@ -15,7 +15,7 @@ class PackagingPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_packaging');
+        return $user->isAdmin() || $user->isEditor() || $user->isUser();
     }
 
     /**
@@ -23,7 +23,7 @@ class PackagingPolicy
      */
     public function view(User $user, Packaging $packaging): bool
     {
-        return $user->can('view_packaging');
+        return $user->isAdmin() || $user->isEditor() || $user->isUser();
     }
 
     /**
@@ -31,7 +31,7 @@ class PackagingPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_packaging');
+        return $user->isAdmin() || $user->isEditor();
     }
 
     /**
@@ -39,7 +39,7 @@ class PackagingPolicy
      */
     public function update(User $user, Packaging $packaging): bool
     {
-        return $user->can('update_packaging');
+        return $user->isAdmin() || $user->isEditor();
     }
 
     /**
@@ -47,7 +47,7 @@ class PackagingPolicy
      */
     public function delete(User $user, Packaging $packaging): bool
     {
-        return $user->can('delete_packaging');
+        return $user->isAdmin();
     }
 
     /**
@@ -55,7 +55,7 @@ class PackagingPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_packaging');
+        return $user->isAdmin();
     }
 
     /**
@@ -63,7 +63,7 @@ class PackagingPolicy
      */
     public function forceDelete(User $user, Packaging $packaging): bool
     {
-        return $user->can('force_delete_packaging');
+        return $user->isAdmin();
     }
 
     /**
@@ -71,7 +71,7 @@ class PackagingPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_packaging');
+        return $user->isAdmin();
     }
 
     /**
@@ -79,7 +79,7 @@ class PackagingPolicy
      */
     public function restore(User $user, Packaging $packaging): bool
     {
-        return $user->can('restore_packaging');
+        return $user->isAdmin();
     }
 
     /**
@@ -87,7 +87,7 @@ class PackagingPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_packaging');
+        return $user->isAdmin();
     }
 
     /**
@@ -95,7 +95,7 @@ class PackagingPolicy
      */
     public function replicate(User $user, Packaging $packaging): bool
     {
-        return $user->can('replicate_packaging');
+        return $user->isAdmin();
     }
 
     /**
@@ -103,6 +103,6 @@ class PackagingPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_packaging');
+        return $user->isAdmin();
     }
 }

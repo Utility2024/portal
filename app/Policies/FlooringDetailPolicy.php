@@ -15,15 +15,15 @@ class FlooringDetailPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_flooring::detail');
+        return $user->isAdmin() || $user->isEditor() || $user->isUser();
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, FlooringDetail $flooringDetail): bool
+    public function view(User $user, FlooringDetail $FlooringDetail): bool
     {
-        return $user->can('view_flooring::detail');
+        return $user->isAdmin() || $user->isEditor() || $user->isUser();
     }
 
     /**
@@ -31,23 +31,23 @@ class FlooringDetailPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_flooring::detail');
+        return $user->isAdmin() || $user->isEditor();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, FlooringDetail $flooringDetail): bool
+    public function update(User $user, FlooringDetail $FlooringDetail): bool
     {
-        return $user->can('update_flooring::detail');
+        return $user->isAdmin() || $user->isEditor();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, FlooringDetail $flooringDetail): bool
+    public function delete(User $user, FlooringDetail $FlooringDetail): bool
     {
-        return $user->can('delete_flooring::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -55,15 +55,15 @@ class FlooringDetailPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_flooring::detail');
+        return $user->isAdmin();
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, FlooringDetail $flooringDetail): bool
+    public function forceDelete(User $user, FlooringDetail $FlooringDetail): bool
     {
-        return $user->can('force_delete_flooring::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -71,15 +71,15 @@ class FlooringDetailPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_flooring::detail');
+        return $user->isAdmin();
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, FlooringDetail $flooringDetail): bool
+    public function restore(User $user, FlooringDetail $FlooringDetail): bool
     {
-        return $user->can('restore_flooring::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -87,15 +87,15 @@ class FlooringDetailPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_flooring::detail');
+        return $user->isAdmin();
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, FlooringDetail $flooringDetail): bool
+    public function replicate(User $user, FlooringDetail $FlooringDetail): bool
     {
-        return $user->can('replicate_flooring::detail');
+        return $user->isAdmin();
     }
 
     /**
@@ -103,6 +103,6 @@ class FlooringDetailPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_flooring::detail');
+        return $user->isAdmin();
     }
 }

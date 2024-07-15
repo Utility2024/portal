@@ -15,7 +15,7 @@ class SolderingPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_soldering');
+        return $user->isAdmin() || $user->isEditor() || $user->isUser();
     }
 
     /**
@@ -23,7 +23,7 @@ class SolderingPolicy
      */
     public function view(User $user, Soldering $soldering): bool
     {
-        return $user->can('view_soldering');
+        return $user->isAdmin() || $user->isEditor() || $user->isUser();
     }
 
     /**
@@ -31,7 +31,7 @@ class SolderingPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_soldering');
+        return $user->isAdmin() || $user->isEditor();
     }
 
     /**
@@ -39,7 +39,7 @@ class SolderingPolicy
      */
     public function update(User $user, Soldering $soldering): bool
     {
-        return $user->can('update_soldering');
+        return $user->isAdmin() || $user->isEditor();
     }
 
     /**
@@ -47,7 +47,7 @@ class SolderingPolicy
      */
     public function delete(User $user, Soldering $soldering): bool
     {
-        return $user->can('delete_soldering');
+        return $user->isAdmin();
     }
 
     /**
@@ -55,7 +55,7 @@ class SolderingPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_soldering');
+        return $user->isAdmin();
     }
 
     /**
@@ -63,7 +63,7 @@ class SolderingPolicy
      */
     public function forceDelete(User $user, Soldering $soldering): bool
     {
-        return $user->can('force_delete_soldering');
+        return $user->isAdmin();
     }
 
     /**
@@ -71,7 +71,7 @@ class SolderingPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_soldering');
+        return $user->isAdmin();
     }
 
     /**
@@ -79,7 +79,7 @@ class SolderingPolicy
      */
     public function restore(User $user, Soldering $soldering): bool
     {
-        return $user->can('restore_soldering');
+        return $user->isAdmin();
     }
 
     /**
@@ -87,7 +87,7 @@ class SolderingPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_soldering');
+        return $user->isAdmin();
     }
 
     /**
@@ -95,7 +95,7 @@ class SolderingPolicy
      */
     public function replicate(User $user, Soldering $soldering): bool
     {
-        return $user->can('replicate_soldering');
+        return $user->isAdmin();
     }
 
     /**
@@ -103,6 +103,6 @@ class SolderingPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_soldering');
+        return $user->isAdmin();
     }
 }

@@ -2,14 +2,12 @@
 
 namespace App\Policies;
 
+use App\Models\Material;
 use App\Models\User;
-use App\Models\Worksurface;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
-class WorksurfacePolicy
+class MaterialPolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view any models.
      */
@@ -21,7 +19,7 @@ class WorksurfacePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Worksurface $worksurface): bool
+    public function view(User $user, Material $Material): bool
     {
         return $user->isAdmin() || $user->isEditor() || $user->isUser();
     }
@@ -37,7 +35,7 @@ class WorksurfacePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Worksurface $worksurface): bool
+    public function update(User $user, Material $Material): bool
     {
         return $user->isAdmin() || $user->isEditor();
     }
@@ -45,7 +43,7 @@ class WorksurfacePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Worksurface $worksurface): bool
+    public function delete(User $user, Material $Material): bool
     {
         return $user->isAdmin();
     }
@@ -61,7 +59,7 @@ class WorksurfacePolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Worksurface $worksurface): bool
+    public function forceDelete(User $user, Material $Material): bool
     {
         return $user->isAdmin();
     }
@@ -77,7 +75,7 @@ class WorksurfacePolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Worksurface $worksurface): bool
+    public function restore(User $user, Material $Material): bool
     {
         return $user->isAdmin();
     }
@@ -93,7 +91,7 @@ class WorksurfacePolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Worksurface $worksurface): bool
+    public function replicate(User $user, Material $Material): bool
     {
         return $user->isAdmin();
     }
