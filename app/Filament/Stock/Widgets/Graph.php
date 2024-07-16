@@ -19,7 +19,7 @@ class Graph extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $heading = 'Graph Transaction In and Out Materials';
+    protected static ?string $heading = 'Transaction In and Out Materials';
 
     /**
      * Chart options (series, labels, types, size, animations...)

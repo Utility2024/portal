@@ -22,7 +22,7 @@ class HTotalExpensesandIncome extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $heading = 'Total Expenses and Income';
+    protected static ?string $heading = 'Expenses and Income';
 
     /**
      * Chart options (series, labels, types, size, animations...)

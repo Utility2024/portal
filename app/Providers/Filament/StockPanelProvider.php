@@ -49,8 +49,6 @@ class StockPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Stock/Widgets'), for: 'App\\Filament\\Stock\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
                 Graph::class,
                 AUserTransaction::class,
                 LatestMaterial::class,

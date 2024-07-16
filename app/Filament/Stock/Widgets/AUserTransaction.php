@@ -19,7 +19,7 @@ class AUserTransaction extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $heading = 'User Count Transaction Per-Qty';
+    protected static ?string $heading = 'User Count Transaction By-Qty';
 
     /**
      * Chart options (series, labels, types, size, animations...)
